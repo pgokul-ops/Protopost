@@ -1230,7 +1230,7 @@
       <span class="log-status status-sandbox">SANDBOX</span>
     </div>`;
 
-  toggle.addEventListener('click', () => {
+ toggle.addEventListener('click', () => {
     sandboxOn = !sandboxOn;
     toggle.classList.toggle('off', !sandboxOn);
     logRows.style.opacity = '0';
@@ -1238,8 +1238,31 @@
       logRows.innerHTML = sandboxOn ? sandboxRows : liveRows;
       logRows.style.opacity = '1';
     }, 200);
-    logRows.style.transition = 'opacity 0.2s ease'; 
+    logRows.style.transition = 'opacity 0.2s';
   });
+
+  // ── Demo checklist ───────────────────────────────────
+  function toggleCheck(el) {
+    el.classList.toggle('done');
+    const box = el.querySelector('.ci-box');
+    box.textContent = el.classList.contains('done') ? '✓' : '';
+  }
+
+  // ── Smooth nav highlight ─────────────────────────────
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 120) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current
+        ? 'var(--text)'
+        : '';
+    });
+  }, { passive: true });
 </script>
 </body>
 </html>
